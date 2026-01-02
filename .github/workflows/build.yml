@@ -312,8 +312,7 @@ jobs:
       run: make -j4 -C mpy-cross
     - name: build ek_ra8d1
       run: make -j4 -C ports/zephyr-cp BOARD=renesas_ek_ra8d1
-
-  ports:
+ports:
     needs: [scheduler, mpy-cross, tests]
     if: needs.scheduler.outputs.ports != '{}'
     uses: ./.github/workflows/build-boards.yml
@@ -321,7 +320,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        port: ${{ fromJSON(needs.scheduler.outputs.ports).ports }}
+        # 1. We only start the RP2040 builder
+        port: ['rp2040']
+    with:
+      # 2. CRITICAL: We override the list to ONLY include the Pico.
+      # If you leave the old "needs.scheduler..." line here, it will build ALL RP2040 boards.
+      boards: '["raspberry_pi_pico"]'
+      cp-version: ${{ needs.scheduler.outputs.cp-version }}
+      port: ${{ matrix.port }}  ports:
+    needs: [scheduler, mpy-cross, tests]
+    if: needs.scheduler.outputs.ports != '{}'
+    uses: ./.github/workflows/build-boards.yml
+    secrets: inherit
+    strategy:
+      fail-fast: false
+      matrix:
+#        port: ${{ fromJSON(needs.scheduler.outputs.ports).ports }}
+        port: ['rp2040']
+        boards: ['raspberry_pi_pico']
     with:
       boards: ${{ toJSON(fromJSON(needs.scheduler.outputs.ports)[matrix.port]) }}
       cp-version: ${{ needs.scheduler.outputs.cp-version }}
