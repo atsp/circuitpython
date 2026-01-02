@@ -1,9 +1,8 @@
 // This file is part of the CircuitPython project: https://circuitpython.org
 //
 // SPDX-FileCopyrightText: Copyright (c) 2018 hathach for Adafruit Industries
-//
+// 
 // SPDX-License-Identifier: MIT
-
 #include "lib/tinyusb/src/tusb.h"
 
 #include "py/objstr.h"
