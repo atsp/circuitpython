@@ -312,18 +312,19 @@ jobs:
       run: make -j4 -C mpy-cross
     - name: build ek_ra8d1
       run: make -j4 -C ports/zephyr-cp BOARD=renesas_ek_ra8d1
-ports:
-  needs: [scheduler, mpy-cross, tests]
-  if: needs.scheduler.outputs.ports != '{}'
-  uses: ./.github/workflows/build-boards.yml
-  secrets: inherit
-  strategy:
-    fail-fast: false
-    matrix:
-      # Only run the builder for the RP2040 chip family
-      port: ['rp2040']
-  with:
-    # Force the builder to only build the Pico
-    boards: '["raspberry_pi_pico"]'
-    cp-version: ${{ needs.scheduler.outputs.cp-version }}
-    port: ${{ matrix.port }}
+
+  ports:
+    needs: [scheduler, mpy-cross, tests]
+    if: needs.scheduler.outputs.ports != '{}'
+    uses: ./.github/workflows/build-boards.yml
+    secrets: inherit
+    strategy:
+      fail-fast: false
+      matrix:
+        # Only run the builder for the RP2040 chip family
+        port: ['rp2040']
+    with:
+      # Force the builder to only build the Pico
+      boards: '["raspberry_pi_pico"]'
+      cp-version: ${{ needs.scheduler.outputs.cp-version }}
+      port: ${{ matrix.port }}
