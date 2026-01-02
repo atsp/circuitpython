@@ -68,7 +68,7 @@ static const uint8_t device_descriptor_template[] = {
     0xFF, 0xFF,  // 10,11 idProduct [SET AT RUNTIME: lo,hi]
 #define DEVICE_PID_LO_INDEX (10)
 #define DEVICE_PID_HI_INDEX (11)
-        0x23, 0x11, // 11.23
+    0x23, 0x11, // 11.23
     0xFF,        // 14 iManufacturer (String Index) [SET AT RUNTIME]
 #define DEVICE_MANUFACTURER_STRING_INDEX (14)
     0xFF,        // 15 iProduct (String Index) [SET AT RUNTIME]
